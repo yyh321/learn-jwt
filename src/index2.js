@@ -1,25 +1,10 @@
 const jwt = require('jsonwebtoken')
+const fs = require('fs')
 
 const payload = {
   name: 'yyh123',
   admin: true
 }
-
-const secret = 'I_LOVE_YYH123'
-/**
- * 默认签名算法 HS256 (对称加密)
- */
-const token = jwt.sign(payload, secret)
-
-console.log(token)
-
-jwt.verify(token, secret, (error, decoded) => {
-  if (error) {
-    console.log(error)
-    return
-  }
-  console.log(decoded)
-})
 
 // 用RS256非对称加密算法
 // 创建私钥
@@ -30,3 +15,9 @@ jwt.verify(token, secret, (error, decoded) => {
 /**
  * RS256 (非对称加密) 
  */
+
+const privateKey = fs.readFileSync('../config/private.key')
+const token = jwt.sign(payload, privateKey, {
+  algorithm: 'RS256'
+})
+console.log(token)
