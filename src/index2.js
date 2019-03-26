@@ -21,3 +21,14 @@ const token = jwt.sign(payload, privateKey, {
   algorithm: 'RS256'
 })
 console.log(token)
+
+// 验证token
+
+const publicKey = fs.readFileSync('../config/public.key')
+jwt.verify(token, publicKey, (error, decoded) => {
+  if (error) {
+    console.log(error.message)
+    return
+  }
+  console.log(decoded)
+})
